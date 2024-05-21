@@ -34,4 +34,5 @@ public class PersonController {
     }
 
     //Todo Interceptor log requestResponse
+    //Todo: Dar de baja cliente
 }

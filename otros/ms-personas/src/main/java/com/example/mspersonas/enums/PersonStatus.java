@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum PersonStatus {
     ACTIVO(1, "Client already exists"),
-    INACTIVO(2, ""),
+    INACTIVO(2, "Client already exists"),
     SUSPENDIDO(3, "Client is suspended"),
     BLOQUEADO(4,"Client is blocked"),
     CANCELADO(5, "");
