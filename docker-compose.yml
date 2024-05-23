@@ -6,7 +6,6 @@ services:
     ports:
       - "3000:3000"
 
-
   mariadb:
     image: mariadb
     command: --default-authentication-plugin=ey%2024#database
@@ -31,10 +30,18 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: passwordey1234
       MONGO_INITDB_DATABASE: root-db
     ports:
-        - 27017:27017
+        - "27017:27017"
     volumes:
         - ./volumenes/mongodb_data:/data/db       
         - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+        
+  ms-personas:
+    build: ./otros/ms-personas/.
+    container_name: ms-personas
+    restart: always
+    ports:
+      - "8173:8173"
+
 volumes:
   mariadb_data:
   mongodb_data:

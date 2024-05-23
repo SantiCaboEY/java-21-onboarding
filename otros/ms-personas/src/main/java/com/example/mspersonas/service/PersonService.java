@@ -19,7 +19,7 @@ public class PersonService {
     private final PersonRepository personRepository;
     private final DomainEventPublisher domainEventPublisher;
 
-    PersonService(final PersonRepository personRepository,
+    public PersonService(final PersonRepository personRepository,
                   final DomainEventPublisher domainEventPublisher){
         this.personRepository = personRepository;
         this.domainEventPublisher = domainEventPublisher;
