@@ -1,13 +1,14 @@
-package com.example.mspersonas.event;
+package com.example.mspersonas.event.producer;
 
+import com.example.mspersonas.event.catalog.DomainEvent;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class TestDomainEventPublisher extends SQSDomainEventPublisher {
+public class MockedDomainEventPublisher extends SQSDomainEventPublisher {
 
     private int publishedEventsAmount;
 
-    public TestDomainEventPublisher(){
+    public MockedDomainEventPublisher(){
         super();
         publishedEventsAmount = 0;
     }

@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 
 
 @Configuration
-public class ServerConfig {
+public class MultiThreadingConfiguration {
 
     @Bean(TaskExecutionAutoConfiguration.APPLICATION_TASK_EXECUTOR_BEAN_NAME)
     public AsyncTaskExecutor asyncTaskExecutor() {

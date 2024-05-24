@@ -1,7 +1,7 @@
-package com.example.mspersonas.event;
+package com.example.mspersonas.event.producer;
 
+import com.example.mspersonas.event.catalog.DomainEvent;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 @Slf4j
 public class SQSDomainEventPublisher extends DomainEventPublisher{

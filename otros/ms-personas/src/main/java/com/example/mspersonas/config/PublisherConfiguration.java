@@ -1,9 +1,8 @@
 package com.example.mspersonas.config;
 
-import com.example.mspersonas.event.DomainEventPublisher;
-import com.example.mspersonas.event.SQSDomainEventPublisher;
-import com.example.mspersonas.event.TestDomainEventPublisher;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.example.mspersonas.event.producer.DomainEventPublisher;
+import com.example.mspersonas.event.producer.SQSDomainEventPublisher;
+import com.example.mspersonas.event.producer.MockedDomainEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -31,6 +30,6 @@ public class PublisherConfiguration {
     @Bean
     @Profile("test")
     public DomainEventPublisher testDomainEventPublisher() {
-        return new TestDomainEventPublisher();
+        return new MockedDomainEventPublisher();
     }
 }

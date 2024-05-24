@@ -2,8 +2,8 @@ package controller;
 
 import com.example.mspersonas.MsPersonasApplication;
 import com.example.mspersonas.dto.CreatePersonDto;
-import com.example.mspersonas.event.DomainEventPublisher;
-import com.example.mspersonas.event.TestDomainEventPublisher;
+import com.example.mspersonas.event.producer.DomainEventPublisher;
+import com.example.mspersonas.event.producer.MockedDomainEventPublisher;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -23,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 classes = MsPersonasApplication.class)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@DirtiesContext
 class PersonControllerTest {
 
     @Autowired
@@ -34,7 +36,7 @@ class PersonControllerTest {
     @Autowired
     private DomainEventPublisher domainEventPublisher;
 
-    private TestDomainEventPublisher testDomainEventPublisher;
+    private MockedDomainEventPublisher mockedDomainEventPublisher;
 
     private static final String NOT_FOUND_RESPONSE = "{\n" +
             "    \"errorCode\": \"EV003\",\n" +
@@ -55,7 +57,7 @@ class PersonControllerTest {
 
     @BeforeEach
     void initialize(){
-        testDomainEventPublisher = (TestDomainEventPublisher) domainEventPublisher;
+        mockedDomainEventPublisher = (MockedDomainEventPublisher) domainEventPublisher;
     }
     @Test
     void contextLoads() throws Exception {
@@ -74,7 +76,7 @@ class PersonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(FOUND_RESPONSE));
 
-        Assertions.assertEquals(1, testDomainEventPublisher.getPublishedEventsAmount());
+        Assertions.assertEquals(1, mockedDomainEventPublisher.getPublishedEventsAmount());
     }
 
 
