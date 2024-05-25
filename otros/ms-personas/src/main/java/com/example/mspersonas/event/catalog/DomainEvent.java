@@ -1,4 +1,4 @@
-package com.example.mspersonas.event;
+package com.example.mspersonas.event.catalog;
 
 import lombok.Data;
 
@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 @Data
 public abstract class DomainEvent {
     private LocalDateTime timestamp;
+    private String eventName;
 
     protected abstract String printNonSensitiveData();
 
@@ -15,8 +16,6 @@ public abstract class DomainEvent {
     }
     @Override
     public String toString(){
-        return "DomainEvent(" + timestamp + ") : [" + printNonSensitiveData() + "]";
+        return eventName + " DomainEvent(" + timestamp + ") : [" + printNonSensitiveData() + "]";
     }
-
-    //Todo: Recibir y procesar AccountActivatedEvent
 }

@@ -3,7 +3,7 @@ package service;
 import com.example.mspersonas.dto.ApiException;
 import com.example.mspersonas.dto.CreatePersonDto;
 import com.example.mspersonas.enums.PersonStatus;
-import com.example.mspersonas.event.DomainEventPublisher;
+import com.example.mspersonas.event.producer.DomainEventPublisher;
 import com.example.mspersonas.event.catalog.PersonAddedEvent;
 import com.example.mspersonas.model.Person;
 import com.example.mspersonas.repository.PersonRepository;
