@@ -1,12 +1,12 @@
 package com.example.mspersonas.event.consumer;
 
-import com.example.mspersonas.config.KafkaEventsProperties;
 import com.example.mspersonas.event.catalog.AccountActivatedEvent;
 import com.example.mspersonas.event.catalog.DomainEvent;
 import com.example.mspersonas.event.catalog.PersonAddedEvent;
 import com.example.mspersonas.service.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -18,9 +18,9 @@ public class DomainEventConsumer {
     private final String topics;
 
     public DomainEventConsumer(final PersonService service,
-                               final KafkaEventsProperties properties){
+                               @Value("${personas.event.consumerTopic}") String consumerTopics){
         this.service = service;
-        this.topics = properties.getConsumerTopic();
+        this.topics = consumerTopics;
     }
 
     /**

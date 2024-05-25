@@ -2,17 +2,19 @@ package controller;
 
 import com.example.mspersonas.MsPersonasApplication;
 import com.example.mspersonas.dto.CreatePersonDto;
+import com.example.mspersonas.event.catalog.DomainEvent;
 import com.example.mspersonas.event.producer.DomainEventPublisher;
-import com.example.mspersonas.event.producer.MockedDomainEventPublisher;
+import com.example.mspersonas.event.producer.KafkaDomainEventPublisher;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -21,9 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-classes = MsPersonasApplication.class)
+classes = {MsPersonasApplication.class})
 @AutoConfigureMockMvc
-@ActiveProfiles("test")
 @DirtiesContext
 class PersonControllerTest {
 
@@ -33,10 +34,8 @@ class PersonControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
-    private DomainEventPublisher domainEventPublisher;
-
-    private MockedDomainEventPublisher mockedDomainEventPublisher;
+    @MockBean
+    private DomainEventPublisher kafkaDomainEventPublisher;
 
     private static final String NOT_FOUND_RESPONSE = "{\n" +
             "    \"errorCode\": \"EV003\",\n" +
@@ -55,12 +54,8 @@ class PersonControllerTest {
             "    \"type\": 1\n" +
             "}";
 
-    @BeforeEach
-    void initialize(){
-        mockedDomainEventPublisher = (MockedDomainEventPublisher) domainEventPublisher;
-    }
     @Test
-    void contextLoads() throws Exception {
+    void personAddSucceed() throws Exception {
         mockMvc.perform(get("/person/1")
                         .contentType("application/json"))
                 .andExpect(status().is4xxClientError())
@@ -76,8 +71,6 @@ class PersonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(FOUND_RESPONSE));
 
-        Assertions.assertEquals(1, mockedDomainEventPublisher.getPublishedEventsAmount());
+        Mockito.verify(kafkaDomainEventPublisher, Mockito.times(1)).publish(Mockito.any());
     }
-
-
 }

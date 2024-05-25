@@ -1,18 +1,24 @@
 package com.example.mspersonas.event.producer;
 
-import com.example.mspersonas.config.KafkaEventsProperties;
 import com.example.mspersonas.event.catalog.DomainEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
+@Component
 public class KafkaDomainEventPublisher extends DomainEventPublisher{
-    private final KafkaTemplate<Integer, DomainEvent> kafkaTemplate;
+    private final KafkaTemplate<String, DomainEvent> kafkaTemplate;
     private final String topic;
 
-    public KafkaDomainEventPublisher(final KafkaTemplate<Integer, DomainEvent> kafkaTemplate,
-                                     final KafkaEventsProperties kafkaEventsProperties){
+    @Autowired
+    public KafkaDomainEventPublisher(final KafkaTemplate<String, DomainEvent> kafkaTemplate,
+                                     @Value("${personas.event.producerTopic}") String producerTopic){
         super();
+        Assert.notNull(producerTopic, "Kafka properties cannot have topic=null");
         this.kafkaTemplate = kafkaTemplate;
-        this.topic = kafkaEventsProperties.getProducerTopic();
+        this.topic = producerTopic;
     }
 
     @Override
