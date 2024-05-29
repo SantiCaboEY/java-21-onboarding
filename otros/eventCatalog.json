@@ -1,0 +1,77 @@
+{
+    "services": [
+        {
+            "name": "personas",
+            "produces": [
+                {
+                    "name": "person.add",
+                    "desc": "Se inicia onboard de nueva entidad persona"
+                },
+                {
+                    "name": "person.domicile.change",
+                    "desc": "Se modifica domicilio de entidad persona"
+                },
+                {
+                    "name": "person.domicile.add",
+                    "desc": "Se agrega domicilio adicional a entidad persona"
+                },
+                {
+                    "name": "person.domicile.remove",
+                    "desc": "Se elimina domicilio de entidad persona"
+                }
+            ],
+            "consumes": [
+                "account.create",
+                "account.deactivate",
+                "account.ban"
+            ]
+        },
+        {
+            "name": "cuentas",
+            "produces": [
+                {
+                    "name": "account.create",
+                    "desc": "se creó producto cuenta para persona previamente registrada"
+                },
+                {
+                    "name": "account.change",
+                    "desc": "Se modificaron datos de cuenta"
+                },
+                {
+                    "name": "account.deactivate",
+                    "desc": "Se dió de baja cuenta"
+                },
+                {
+                    "name": "account.ban",
+                    "desc": "Se bloquea cuenta"
+                }
+            ],
+            "consumes": [
+                "person.add"
+            ]
+        },
+        {
+            "name": "tarjetas",
+            "produces": [
+                {
+                    "name": "card.create",
+                    "desc": "creacion de producto trajeta asociada a una cuenta"
+                },
+                {
+                    "name": "card.deactivate",
+                    "desc": "se desactiba tarjeta"
+                },
+                {
+                    "name": "card.reprint",
+                    "desc": "se emite plástico nuevo para producto tarjeta"
+                }
+            ],
+            "consumes": [
+                "account.create",
+                "person.domicile.add",
+                "person.domicile.change",
+                "person.domicile.remove"
+            ]
+        }
+    ]
+}

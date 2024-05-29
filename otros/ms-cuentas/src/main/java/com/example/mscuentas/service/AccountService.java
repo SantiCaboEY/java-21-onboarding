@@ -24,46 +24,19 @@ public class AccountService {
         this.accountRepository = accountRepository;
         this.domainEventPublisher = domainEventPublisher;
     }
-    public CreateAccountResponseDto addPerson(final CreateAccountDto createAccountDto){
-        var existingRecord = accountRepository.findByDni(createAccountDto.dni());
-        var  errorMsg = existingRecord.map(Account::getStatus).map(AccountStatus::getCreateError)
-                .orElse("");
-        if(!errorMsg.isBlank()) throw new ApiException(EV001, errorMsg);
 
-        var newPerson = existingRecord.map(p -> {p.setStatus(AccountStatus.INACTIVO); return p;})
-                .orElseGet(() -> Account.builder()
-                        .dni(createAccountDto.dni())
-                        .type(createAccountDto.type())
-                        .name(createAccountDto.name())
-                        .lastName(createAccountDto.lastName())
-                        .status(AccountStatus.INACTIVO)
-                        .build()
-        );
-
-        var result = accountRepository.save(newPerson);
-        domainEventPublisher.publish(PersonAddedEvent.builder()
-                .type(result.getType())
-                .name(result.getName())
-                .lastName(result.getLastName())
-                .id(result.getId())
-                .dni(result.getDni())
-                .build());
-        return new CreateAccountResponseDto(result.getId().toString());
-    }
-
-    public GetAccountDto getPerson(String id) {
+    public GetAccountDto getAccount(String id) {
         return this.accountRepository.findById(id).
                 map(account -> new GetAccountDto(
                         account.getId(),
-                        account.getName(),
-                        account.getLastName(),
-                        account.getDni(),
-                        account.getStatus(),
-                        account. getType()))
+                        account.getPersonNumber(),
+                        AccountStatus.getByValue(account.getStatus().getId()),
+                        account.getMoneySymbol(),
+                        account.getBalance()))
                 .orElseThrow(() -> new ApiException(EV003, notFoundErrorMsg(id)));
     }
 
     private String notFoundErrorMsg(String id) {
-        return String.format("Person with id %s not found", id);
+        return String.format("Account with id %s not found", id);
     }
 }

@@ -1,11 +1,13 @@
 package com.example.mscuentas.dto;
 
 import com.example.mscuentas.enums.AccountStatus;
+import com.example.mscuentas.model.MoneySymbol;
 
-public record GetAccountDto(Integer id,
-                            String name,
-                            String lastName,
-                            String dni,
+import java.math.BigDecimal;
+
+public record GetAccountDto(String id,
+                            Integer personNumber,
                             AccountStatus status,
-                            Integer type) {
+                            MoneySymbol moneySymbol,
+                            BigDecimal balance) {
 }

@@ -33,13 +33,6 @@ class AccountControllerTest {
     @MockBean
     private DomainEventPublisher kafkaDomainEventPublisher;
 
-    private static final String NOT_FOUND_RESPONSE = "{\n" +
-            "    \"errorCode\": \"EV003\",\n" +
-            "    \"description\": \"Person not found\",\n" +
-            "    \"errors\": [\n" +
-            "        \"Person with id 1 not found\"\n" +
-            "    ]\n" +
-            "}";
 
     private static final String FOUND_RESPONSE = "{\n" +
             "    \"id\": 1,\n" +
@@ -52,21 +45,7 @@ class AccountControllerTest {
 
     @Test
     void personAddSucceed() throws Exception {
-        mockMvc.perform(get("/person/1")
-                        .contentType("application/json"))
-                .andExpect(status().is4xxClientError())
-                .andExpect(content().json(NOT_FOUND_RESPONSE));
-
-        mockMvc.perform(post("/person/")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(new CreateAccountDto(1, "John","Doe", "11222333"))))
-                .andExpect(status().isOk())
-                .andExpect(content().json("{\"id\":\"1\"}"));
-
-        mockMvc.perform(get("/person/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(FOUND_RESPONSE));
-
-        Mockito.verify(kafkaDomainEventPublisher, Mockito.times(1)).publish(Mockito.any());
+        mockMvc.perform(get("/account/1"))
+                .andExpect(status().is4xxClientError());
     }
 }

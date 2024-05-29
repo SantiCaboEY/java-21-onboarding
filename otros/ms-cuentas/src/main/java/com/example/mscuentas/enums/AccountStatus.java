@@ -1,21 +1,33 @@
 package com.example.mscuentas.enums;
 
 import lombok.Getter;
+import org.checkerframework.checker.units.qual.A;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 @Getter
 public enum AccountStatus {
-    ACTIVO(1, "Client already exists"),
-    INACTIVO(2, "Client already exists"),
-    SUSPENDIDO(3, "Client is suspended"),
-    BLOQUEADO(4,"Client is blocked"),
-    CANCELADO(5, "");
+    ACTIVA(1),
+    INACTIVA(2),
+    SUSPENDIDA(3),
+    CANCELADA(4),
+    BLOQUEADA(5);
 
     private final int value;
-    private final String createError;
 
-    AccountStatus(int value, String createError){
+    AccountStatus(int value){
         this.value = value;
-        this.createError = createError;
     }
 
+    public static AccountStatus getByValue(String value){
+        return switch (value){
+            case "1" -> ACTIVA;
+            case "2" -> INACTIVA;
+            case "3" -> SUSPENDIDA;
+            case "4" -> CANCELADA;
+            case "5" -> BLOQUEADA;
+            default -> throw new NoSuchElementException("[" + value + "] is not a valid account Status");
+        };
+    }
 }
