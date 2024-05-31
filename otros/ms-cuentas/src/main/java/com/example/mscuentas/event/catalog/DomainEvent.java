@@ -11,6 +11,8 @@ public abstract class DomainEvent {
 
     protected abstract String printNonSensitiveData();
 
+    //public abstract Class<? extends DomainEvent> getImplementingClass();
+
     protected DomainEvent(){
         this.timestamp = LocalDateTime.now();
     }

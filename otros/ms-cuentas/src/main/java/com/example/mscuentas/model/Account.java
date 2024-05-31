@@ -17,11 +17,11 @@ public class Account {
     @Column(name = "persnum")
     private Integer personNumber;
 
-    @OneToOne
-    @JoinColumn(name = "divisa", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "divisa", referencedColumnName = "cod_moneda")
     private MoneySymbol moneySymbol;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "estado", referencedColumnName = "id")
     private AccountStatusModel status;
 

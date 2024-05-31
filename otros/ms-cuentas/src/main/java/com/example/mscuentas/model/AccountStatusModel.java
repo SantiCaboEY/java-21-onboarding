@@ -1,17 +1,17 @@
 package com.example.mscuentas.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.Data;
 
 @Entity
 @Table(name = "estado_cuenta")
-@Getter
+@Data
 public class AccountStatusModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private String id;
 
-    @Column(name = "detalle")
+    @Column(name = "detalle", length = 30 )
     private String detail;
 }

@@ -1,17 +1,13 @@
 package com.example.mscuentas.service;
 
 import com.example.mscuentas.dto.ApiException;
-import com.example.mscuentas.dto.CreateAccountDto;
-import com.example.mscuentas.dto.CreateAccountResponseDto;
 import com.example.mscuentas.dto.GetAccountDto;
 import com.example.mscuentas.enums.AccountStatus;
+import com.example.mscuentas.enums.SymbolMoney;
 import com.example.mscuentas.event.producer.DomainEventPublisher;
-import com.example.mscuentas.event.catalog.PersonAddedEvent;
-import com.example.mscuentas.model.Account;
 import com.example.mscuentas.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 
-import static com.example.mscuentas.enums.ErrorCode.EV001;
 import static com.example.mscuentas.enums.ErrorCode.EV003;
 
 @Service
@@ -31,7 +27,7 @@ public class AccountService {
                         account.getId(),
                         account.getPersonNumber(),
                         AccountStatus.getByValue(account.getStatus().getId()),
-                        account.getMoneySymbol(),
+                        SymbolMoney.getByValue(account.getMoneySymbol().getId()),
                         account.getBalance()))
                 .orElseThrow(() -> new ApiException(EV003, notFoundErrorMsg(id)));
     }
