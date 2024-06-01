@@ -1,20 +1,25 @@
 package com.example.mscuentas.event.catalog;
 
-import lombok.Data;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
 public abstract class DomainEvent {
-    private LocalDateTime timestamp;
-    private String eventName;
+    //Metadata
+    protected LocalDateTime timestamp;
+    protected String eventName;
+    //eventId
+    //correlationId
+    //spanId
 
     protected abstract String printNonSensitiveData();
 
-    //public abstract Class<? extends DomainEvent> getImplementingClass();
+    protected DomainEvent(){};
 
-    protected DomainEvent(){
+    protected DomainEvent(final String eventName){
         this.timestamp = LocalDateTime.now();
+        this.eventName = eventName;
     }
     @Override
     public String toString(){

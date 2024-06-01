@@ -38,8 +38,7 @@ class AccountServiceTest {
 
     @Test
     void givenExistingAccountSucced(){
-        Mockito.when(accountRepository.findById(Mockito.any()))
-                .thenReturn(Optional.of(mockAccount()));
+        Mockito.when(accountRepository.findById(Mockito.any())).thenReturn(Optional.of(mockAccount()));
         var foundAccount =  accountService.getAccount("1");
         Assertions.assertNotNull(foundAccount);
         Assertions.assertEquals(BigDecimal.valueOf(100L), foundAccount.balance());
