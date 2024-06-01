@@ -1,26 +1,33 @@
 package com.example.mscuentas.event.catalog;
 
+import com.example.mscuentas.enums.AccountProduct;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+
+import java.util.List;
 
 /**
  * Produced when an account is activated;
  */
 @EqualsAndHashCode(callSuper = true)
-@Data
+@AllArgsConstructor
+@Getter
+@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountActivatedEvent extends DomainEvent{
 
     private String personId;
+    private List<AccountProduct> activatedProducts;
+    private String personName;
+    private String personLastName;
+    private String personDni;
 
     public AccountActivatedEvent(){
-        super();
-        this.setEventName("person.account.activated");
+        super("person.account.activated");
     }
 
     @Override
     protected String printNonSensitiveData() {
-        return "";
+        return "personId = " + personId;
     }
 }

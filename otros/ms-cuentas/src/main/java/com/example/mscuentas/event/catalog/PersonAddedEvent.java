@@ -6,23 +6,22 @@ import lombok.*;
  * Produced when a person is added, regardless of previous states.
  */
 @EqualsAndHashCode(callSuper = true)
-@Data
-@Builder
 @AllArgsConstructor
+@Builder
+@Getter
 public class PersonAddedEvent extends DomainEvent {
-    private Integer id;
+    private Integer personId;
     private String name;
     private String lastName;
     private String dni;
     private int type;
 
     public PersonAddedEvent(){
-        super();
-        this.setEventName("person.add");
+        super("person.add");
     }
 
     @Override
     protected String printNonSensitiveData() {
-        return String.format("id: %s, name: %s, lastName:%s, dni: %s", id,name,lastName,dni);
+        return String.format("id: %s, name: %s, lastName:%s, dni: %s", personId, name,lastName,dni);
     }
 }
