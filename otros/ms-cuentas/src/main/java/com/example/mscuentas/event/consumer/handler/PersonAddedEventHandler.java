@@ -2,6 +2,7 @@ package com.example.mscuentas.event.consumer.handler;
 
 import com.example.mscuentas.enums.AccountProduct;
 import com.example.mscuentas.event.catalog.PersonAddedEvent;
+import com.example.mscuentas.service.AccountService;
 import com.example.mscuentas.service.PersonBackgroundService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +16,12 @@ public final class PersonAddedEventHandler implements DomainEventHandler<PersonA
 
     private static final Logger logger = LoggerFactory.getLogger(PersonAddedEventHandler.class);
     private final PersonBackgroundService personBackgroundService;
+    private final AccountService accountService;
 
-    public PersonAddedEventHandler(final PersonBackgroundService personBackgroundService) {
+    public PersonAddedEventHandler(final PersonBackgroundService personBackgroundService,
+                                   final AccountService accountService) {
         this.personBackgroundService = personBackgroundService;
+        this.accountService = accountService;
     }
 
     private void handleEvent(PersonAddedEvent event) {
@@ -30,11 +34,11 @@ public final class PersonAddedEventHandler implements DomainEventHandler<PersonA
             try {
                 availableProducts = ProductFilterTemplate.create()
                     .loadRule(personBackgroundService.getAntiterrorismStatus(dni) , theBoolean -> theBoolean,
-                            AccountProduct.CREDIT_CARD, AccountProduct.GOLDEN_PACKAGE)
+                            AccountProduct.values())
                     .loadRule(personBackgroundService.getBlacklistedStatus(dni), theBoolean -> theBoolean,
-                            AccountProduct.CREDIT_CARD)
+                            AccountProduct.CREDIT_CARD_GOLD, AccountProduct.CREDIT_CARD_PLATINUM, AccountProduct.CREDIT_CARD_BASIC)
                     .loadRule(personBackgroundService.getScore(dni), score -> score < 10,
-                            AccountProduct.GOLDEN_PACKAGE)
+                            AccountProduct.CREDIT_CARD_GOLD, AccountProduct.CREDIT_CARD_PLATINUM)
                     .getAvailableProducts();
             } catch(Exception e){
                 logger.error(
@@ -43,8 +47,9 @@ public final class PersonAddedEventHandler implements DomainEventHandler<PersonA
                 //This was a valid event, that failed because of api call to providers
                 //Since it was a valid event, it shouldn't be lost. There needs to be a mechanism.
                 //For now, we allow the base product, and rely on the client requesting the pending activations:
-                availableProducts = List.of(AccountProduct.DEBIT_CARD);
+                availableProducts = List.of(AccountProduct.BASIC_ACCOUNT);
             }
+            accountService.addAccount(event, availableProducts);
             logger.info("dni = {}. Obtained products to activate: {}", event.getDni(),availableProducts);
         }
     }

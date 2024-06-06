@@ -2,6 +2,7 @@ package event.consumer;
 
 import com.example.mscuentas.event.catalog.PersonAddedEvent;
 import com.example.mscuentas.event.consumer.handler.PersonAddedEventHandler;
+import com.example.mscuentas.service.AccountService;
 import com.example.mscuentas.service.PersonBackgroundService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,12 +15,14 @@ public class PersonAddedEventHandlerTest {
 
     private PersonAddedEventHandler handler;
 
-    private PersonBackgroundService personBackgroundService;;
+    private PersonBackgroundService personBackgroundService;
+    private AccountService accountService;
 
     @BeforeEach
     void initialize(){
         this.personBackgroundService = Mockito.mock(PersonBackgroundService.class);
-        handler = new PersonAddedEventHandler(personBackgroundService);
+        this.accountService = Mockito.mock(AccountService.class);
+        handler = new PersonAddedEventHandler(personBackgroundService,accountService);
     }
     @Test
     void givenValidEventAndCleanDniThenSucced(){
@@ -29,6 +32,7 @@ public class PersonAddedEventHandlerTest {
                 .thenReturn(CompletableFuture.completedFuture(10.0f));
         Mockito.when(personBackgroundService.getBlacklistedStatus(Mockito.any()))
                 .thenReturn(CompletableFuture.completedFuture(false));
+
         Assertions.assertDoesNotThrow(() -> handler.handle(personAddEvent()));
     }
 
@@ -40,6 +44,7 @@ public class PersonAddedEventHandlerTest {
                 .thenReturn(CompletableFuture.completedFuture(10.0f));
         Mockito.when(personBackgroundService.getBlacklistedStatus(Mockito.any()))
                 .thenReturn(CompletableFuture.completedFuture(true));
+
         Assertions.assertDoesNotThrow(() -> handler.handle(personAddEvent()));
     }
 
