@@ -4,11 +4,12 @@ import com.example.mscuentas.client.renaper.RenaperClient;
 import com.example.mscuentas.client.veraz.VerazClient;
 import com.example.mscuentas.client.worldsys.WorldsysClient;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
-
+@Service
 public class PersonBackgroundServiceImpl implements PersonBackgroundService{
     private final RenaperClient renaperClient;
     private final WorldsysClient worldsysClient;
@@ -36,7 +37,7 @@ public class PersonBackgroundServiceImpl implements PersonBackgroundService{
     public CompletableFuture<Boolean> getAntiterrorismStatus(String dni) {
         var result = Objects.requireNonNull(
                 worldsysClient.getAntiTerrorismStatus(Integer.decode(dni)).getBody()
-        ).isTerrrorist();
+        ).isTerrorist();
         return CompletableFuture.completedFuture(result);
     }
 

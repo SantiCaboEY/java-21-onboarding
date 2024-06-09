@@ -1,4 +1,4 @@
-package controller;
+package com.example.mscuentas.controller;
 
 import com.example.mscuentas.MsCuentasApplication;
 import org.junit.jupiter.api.Test;

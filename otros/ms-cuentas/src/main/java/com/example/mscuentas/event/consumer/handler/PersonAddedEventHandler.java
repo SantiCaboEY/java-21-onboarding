@@ -32,24 +32,34 @@ public final class PersonAddedEventHandler implements DomainEventHandler<PersonA
         } else {
             List<AccountProduct> availableProducts;
             try {
+                var worldSysFutureResponse = personBackgroundService.getAntiterrorismStatus(dni);
+                var renaperFutureResponse = personBackgroundService.getBlacklistedStatus(dni);
+                var verazFutureResponse = personBackgroundService.getScore(dni);
                 availableProducts = ProductFilterTemplate.create()
-                    .loadRule(personBackgroundService.getAntiterrorismStatus(dni) , theBoolean -> theBoolean,
+                    .loadRule(worldSysFutureResponse, isATerrorist -> isATerrorist,
                             AccountProduct.values())
-                    .loadRule(personBackgroundService.getBlacklistedStatus(dni), theBoolean -> theBoolean,
+                    .loadRule(renaperFutureResponse, isOk -> !isOk,
                             AccountProduct.CREDIT_CARD_GOLD, AccountProduct.CREDIT_CARD_PLATINUM, AccountProduct.CREDIT_CARD_BASIC)
-                    .loadRule(personBackgroundService.getScore(dni), score -> score < 10,
+                    .loadRule(verazFutureResponse, score -> score < 10,
                             AccountProduct.CREDIT_CARD_GOLD, AccountProduct.CREDIT_CARD_PLATINUM)
                     .getAvailableProducts();
             } catch(Exception e){
                 logger.error(
-                        "Error retrieving data from authorization providers. Only basic product will be activated: {}"
-                        ,e.getMessage(), e);
+                        "Error retrieving data from authorization providers for person[dni={}]. Only basic product will be activated: {}",
+                        dni, e.getMessage(), e);
                 //This was a valid event, that failed because of api call to providers
                 //Since it was a valid event, it shouldn't be lost. There needs to be a mechanism.
                 //For now, we allow the base product, and rely on the client requesting the pending activations:
                 availableProducts = List.of(AccountProduct.BASIC_ACCOUNT);
             }
-            accountService.addAccount(event, availableProducts);
+            try {
+                accountService.addAccount(event, availableProducts);
+            } catch (Exception e) {
+                logger.error(
+                        "Error activating products for person[dni={}]. Only basic product will be activated: {}",
+                        dni, e.getMessage(), e);
+                //Same consideration here.
+            }
             logger.info("dni = {}. Obtained products to activate: {}", event.getDni(),availableProducts);
         }
     }

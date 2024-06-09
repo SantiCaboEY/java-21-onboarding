@@ -37,7 +37,7 @@ public class DomainEventKafkaConsumer implements DomainEventConsumer {
      * @param event
      */
     @Async("virtualThreadExecutor")
-    @KafkaListener(topics = "${personas.event.consumerTopic}")
+    @KafkaListener(topics = {"personas", "tarjetas"})
     public void processMessage(final DomainEvent event)  {
         logger.info("received event = {} - {} ", event, event.hashCode());
         var handler = handlerMap.get(event.getClass());
@@ -49,4 +49,10 @@ public class DomainEventKafkaConsumer implements DomainEventConsumer {
         }
 
     }
+/*
+    @Async("virtualThreadExecutor")
+    @KafkaListener(topics = {"personas"})
+    public void processMessage(final PersonAddedEvent event) {
+        logger.info("received event = {} - {} ", event, event.hashCode());
+    }*/
 }

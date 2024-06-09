@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 import static com.example.mscuentas.enums.ErrorCode.EV003;
 
@@ -50,10 +51,6 @@ public class AccountService {
                 .orElseThrow(() -> new ApiException(EV003, notFoundErrorMsg(id)));
     }
 
-    private String notFoundErrorMsg(String id) {
-        return String.format("Account with id %s not found", id);
-    }
-
     public void addAccount(final PersonAddedEvent event,
                            final List<AccountProduct> availableProducts) {
         if(availableProducts.isEmpty()){
@@ -72,9 +69,10 @@ public class AccountService {
     private void addBasicAccount(PersonAddedEvent event){
         var currency = currencyRepository.findBySymbol("ARG")
                 .orElseThrow(() -> new IllegalArgumentException("No currency found"));
-        var status = accountStatusRepository.findByDetail("ACTIVA")
+        var status = accountStatusRepository.findByDetail("Activa")
                 .orElseThrow(() -> new IllegalArgumentException("No status found"));
-        this.accountRepository.save(new Account(null,
+        this.accountRepository.save(new Account(
+                UUID.randomUUID().toString(),
                 Integer.decode(event.getDni()),
                 currency,
                 status,
@@ -84,12 +82,17 @@ public class AccountService {
     private void addUsdAccount(PersonAddedEvent event){
         var currency = currencyRepository.findBySymbol("USD")
                 .orElseThrow(() -> new IllegalArgumentException("No currency found"));
-        var status = accountStatusRepository.findByDetail("ACTIVA")
+        var status = accountStatusRepository.findByDetail("Activa")
                 .orElseThrow(() -> new IllegalArgumentException("No status found"));
-        this.accountRepository.save(new Account(null,
+        this.accountRepository.save(new Account(
+                UUID.randomUUID().toString(),
                 Integer.decode(event.getDni()),
                 currency,
                 status,
                 BigDecimal.ZERO));
+    }
+
+    private String notFoundErrorMsg(String id) {
+        return String.format("Account with id %s not found", id);
     }
 }

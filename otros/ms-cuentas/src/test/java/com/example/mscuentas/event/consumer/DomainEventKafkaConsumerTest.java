@@ -1,4 +1,4 @@
-package event.consumer;
+package com.example.mscuentas.event.consumer;
 
 import com.example.mscuentas.event.catalog.AccountActivatedEvent;
 import com.example.mscuentas.event.catalog.PersonAddedEvent;

@@ -9,11 +9,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 @EnableFeignClients
 public class MsCuentasApplication {
-
-	//Todo Request-Response log
-	//Todo Inbound Outbound log
 	public static void main(String[] args) {
 		SpringApplication.run(MsCuentasApplication.class, args);
 	}
-
 }

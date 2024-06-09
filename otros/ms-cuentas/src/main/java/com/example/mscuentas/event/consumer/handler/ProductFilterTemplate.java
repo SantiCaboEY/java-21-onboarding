@@ -27,9 +27,9 @@ public class ProductFilterTemplate {
     }
 
     public <T> ProductFilterTemplate loadRule(final CompletableFuture<T> parameterFuture,
-                                              final Predicate<T> predicate,
-                                              final AccountProduct... products){
-        rules.add(new Rule<T>(Arrays.asList(products), parameterFuture, predicate));
+                                              final Predicate<T> conditionToDisableProducts,
+                                              final AccountProduct... productsToDisable){
+        rules.add(new Rule<T>(Arrays.asList(productsToDisable), parameterFuture, conditionToDisableProducts));
         return this;
     }
 

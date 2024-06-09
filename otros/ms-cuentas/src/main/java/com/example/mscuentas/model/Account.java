@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name =  "numcue")
     private String id;
 
