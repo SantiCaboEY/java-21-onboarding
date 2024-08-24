@@ -9,6 +9,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 @EnableFeignClients
 public class MsCuentasApplication {
+	//Todo: Add servlet request response logging interceptor.
+	//Todo: change Kafka's logging level
 	public static void main(String[] args) {
 		SpringApplication.run(MsCuentasApplication.class, args);
 	}

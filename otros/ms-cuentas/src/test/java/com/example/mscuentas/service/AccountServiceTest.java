@@ -44,6 +44,8 @@ class AccountServiceTest {
                 Optional.of(new CurrencyModel("2", "ARGENTINA", "ARG")));
         Mockito.when(accountStatusRepository.findByDetail("ACTIVA")).thenReturn(
                 Optional.of(new AccountStatusModel("2", "ACTIVA")));
+        Mockito.when(accountStatusRepository.findByDetail("Activa")).thenReturn(
+                Optional.of(new AccountStatusModel("2", "Activa")));
     }
     @Test
     void givenNonExistingAccountFail(){

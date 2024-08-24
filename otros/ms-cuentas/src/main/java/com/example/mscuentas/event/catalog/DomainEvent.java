@@ -1,9 +1,11 @@
 package com.example.mscuentas.event.catalog;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Setter
 @Getter
 public abstract class DomainEvent {
     //Metadata
