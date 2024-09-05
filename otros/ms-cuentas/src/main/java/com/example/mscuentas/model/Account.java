@@ -1,16 +1,19 @@
 package com.example.mscuentas.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name="cuentas")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name =  "numcue")
     private String id;
 
@@ -19,7 +22,7 @@ public class Account {
 
     @ManyToOne
     @JoinColumn(name = "divisa", referencedColumnName = "cod_moneda")
-    private MoneySymbol moneySymbol;
+    private CurrencyModel currencyModel;
 
     @ManyToOne
     @JoinColumn(name = "estado", referencedColumnName = "id")

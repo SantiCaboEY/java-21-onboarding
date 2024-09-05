@@ -1,6 +1,9 @@
-package com.example.mscuentas.event.catalog;
+package com.example.mspersonas.event.catalog;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Produced when a person is added, regardless of previous states.

@@ -7,7 +7,8 @@ public enum ErrorCode {
     EV001("Cannot add new active Person "),
     EV002("Invalid Body"),
     EV003("Person not found"),
-    EV000("Generic Error");
+    EV000("Generic Error"),
+    EV004("Error consuming background check provider");
 
     private final String description;
 

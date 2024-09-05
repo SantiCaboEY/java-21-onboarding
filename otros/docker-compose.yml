@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb
+    command: --default-authentication-plugin=ey%2024#database
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ey%2024#database
+      MYSQL_DATABASE: admin
+      MYSQL_USER: eyuser
+      MYSQL_PASSWORD: passwordey1234
+    ports:
+      - "3310:3306"
+    volumes:
+      - ./volumenes/mariadb_data:/var/lib/mysql
+      - ./volumenes/initDB.sql:/docker-entrypoint-initdb.d/1.sql  # Montar el directorio con los archivos SQL
+      
+  ms-personas:
+    build: ./ms-personas/.
+    container_name: ms-personas
+    restart: always
+    ports:
+      - "8173:8173"
+
+volumes:
+  mariadb_data:
+  mongodb_data:

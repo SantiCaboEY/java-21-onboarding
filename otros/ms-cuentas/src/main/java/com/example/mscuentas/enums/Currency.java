@@ -2,7 +2,7 @@ package com.example.mscuentas.enums;
 
 import java.util.NoSuchElementException;
 
-public enum SymbolMoney {
+public enum Currency {
     USD(1),
     EUR(2),
     JPY(3),
@@ -11,11 +11,11 @@ public enum SymbolMoney {
 
     private final int value;
 
-    SymbolMoney(int value){
+    Currency(int value){
         this.value = value;
     }
 
-    public static SymbolMoney getByValue(String value){
+    public static Currency getByValue(String value){
         return switch (value){
             case "1" -> USD;
             case "2" -> EUR;
