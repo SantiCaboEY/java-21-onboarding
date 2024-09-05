@@ -79,6 +79,15 @@ services:
     ports:
       - "8175:8175"
 
+  ms-tarjetas:
+    depends_on:
+        - kafka
+    build: ./otros/ms-tarjetas/.
+    container_name: ms-tarjetas
+    restart: always
+    ports:
+      - "8177:8177"
+
 volumes:
   mariadb_data:
   mongodb_data:
