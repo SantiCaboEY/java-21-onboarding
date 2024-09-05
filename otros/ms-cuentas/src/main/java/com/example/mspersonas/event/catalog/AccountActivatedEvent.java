@@ -1,4 +1,4 @@
-package com.example.mscuentas.event.catalog;
+package com.example.mspersonas.event.catalog;
 
 import com.example.mscuentas.enums.AccountProduct;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AccountActivatedEvent extends DomainEvent{
+public class AccountActivatedEvent extends DomainEvent {
 
     private String personId;
     private List<AccountProduct> activatedProducts;

@@ -1,6 +1,6 @@
 package com.example.mscuentas.event.producer;
 
-import com.example.mscuentas.event.catalog.DomainEvent;
+import com.example.mspersonas.event.catalog.DomainEvent;
 import org.springframework.scheduling.annotation.Async;
 
 public abstract class DomainEventPublisher {

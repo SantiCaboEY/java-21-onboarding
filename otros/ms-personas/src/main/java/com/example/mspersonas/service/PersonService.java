@@ -41,14 +41,20 @@ public class PersonService {
         );
 
         var result = personRepository.save(newPerson);
-        domainEventPublisher.publish(PersonAddedEvent.builder()
+        domainEventPublisher.publish(buildPersonAddEvent(result));
+        return new CreatePersonResponseDto(result.getId().toString());
+    }
+
+    private PersonAddedEvent buildPersonAddEvent(Person result) {
+        var newEvent =  PersonAddedEvent.builder()
                 .type(result.getType())
                 .name(result.getName())
                 .lastName(result.getLastName())
                 .id(result.getId())
                 .dni(result.getDni())
-                .build());
-        return new CreatePersonResponseDto(result.getId().toString());
+                .build();
+        newEvent.setEventName("person.add");
+        return newEvent;
     }
 
     public GetPersonDto getPerson(String id) {

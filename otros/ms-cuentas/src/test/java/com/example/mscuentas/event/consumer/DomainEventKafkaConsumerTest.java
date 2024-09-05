@@ -1,10 +1,10 @@
 package com.example.mscuentas.event.consumer;
 
-import com.example.mscuentas.event.catalog.AccountActivatedEvent;
-import com.example.mscuentas.event.catalog.PersonAddedEvent;
+import com.example.mspersonas.event.catalog.AccountActivatedEvent;
 import com.example.mscuentas.event.consumer.impl.DomainEventKafkaConsumer;
 import com.example.mscuentas.event.consumer.handler.PersonAddedEventHandler;
 import com.example.mscuentas.service.AccountService;
+import com.example.mspersonas.event.catalog.PersonAddedEvent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

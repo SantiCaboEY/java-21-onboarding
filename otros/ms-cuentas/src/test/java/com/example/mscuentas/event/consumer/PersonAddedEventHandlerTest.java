@@ -1,9 +1,9 @@
 package com.example.mscuentas.event.consumer;
 
-import com.example.mscuentas.event.catalog.PersonAddedEvent;
 import com.example.mscuentas.event.consumer.handler.PersonAddedEventHandler;
 import com.example.mscuentas.service.AccountService;
 import com.example.mscuentas.service.PersonBackgroundService;
+import com.example.mspersonas.event.catalog.PersonAddedEvent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -63,7 +63,7 @@ public class PersonAddedEventHandlerTest {
 
     private static PersonAddedEvent personAddEvent() {
         return PersonAddedEvent.builder()
-        .personId(1)
+        .id(1)
         .dni("22333444")
         .name("John")
         .lastName("Doe")

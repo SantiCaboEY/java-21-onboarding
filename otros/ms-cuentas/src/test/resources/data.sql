@@ -4,7 +4,7 @@ INSERT INTO `codigo_moneda` (`cod_moneda`, `pais`, `simbolo`) VALUES
 (3, 'Japón', 'JPY'),
 (4, 'Reino Unido', 'GBP'),
 (5, 'Australia', 'AUD'),
-(6, 'Crocantes', 'ARG');
+(6, 'Crocantes', 'ARS');
 
 INSERT INTO `estado_cuenta` (`id`, `detalle`) VALUES
 (1, 'Activa'),

@@ -5,14 +5,14 @@ import com.example.mscuentas.dto.GetAccountDto;
 import com.example.mscuentas.enums.AccountProduct;
 import com.example.mscuentas.enums.AccountStatus;
 import com.example.mscuentas.enums.Currency;
-import com.example.mscuentas.event.catalog.AccountActivatedEvent;
-import com.example.mscuentas.event.catalog.AccountRejectedEvent;
-import com.example.mscuentas.event.catalog.PersonAddedEvent;
+import com.example.mspersonas.event.catalog.AccountActivatedEvent;
+import com.example.mspersonas.event.catalog.AccountRejectedEvent;
 import com.example.mscuentas.event.producer.DomainEventPublisher;
 import com.example.mscuentas.model.Account;
 import com.example.mscuentas.repository.AccountRepository;
 import com.example.mscuentas.repository.AccountStatusRepository;
 import com.example.mscuentas.repository.CurrencyRepository;
+import com.example.mspersonas.event.catalog.PersonAddedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -67,7 +67,7 @@ public class AccountService {
     }
 
     private void addBasicAccount(PersonAddedEvent event){
-        var currency = currencyRepository.findBySymbol("ARG")
+        var currency = currencyRepository.findBySymbol("ARS")
                 .orElseThrow(() -> new IllegalArgumentException("No currency found"));
         var status = accountStatusRepository.findByDetail("Activa")
                 .orElseThrow(() -> new IllegalArgumentException("No status found"));

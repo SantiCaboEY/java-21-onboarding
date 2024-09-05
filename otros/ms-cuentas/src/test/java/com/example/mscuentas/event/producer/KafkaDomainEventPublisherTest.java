@@ -1,7 +1,7 @@
 package com.example.mscuentas.event.producer;
 
-import com.example.mscuentas.event.catalog.PersonAddedEvent;
 import com.example.mscuentas.event.producer.impl.KafkaDomainEventPublisher;
+import com.example.mspersonas.event.catalog.PersonAddedEvent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

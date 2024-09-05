@@ -1,15 +1,16 @@
 package com.example.mscuentas.event.consumer.handler;
 
 import com.example.mscuentas.enums.AccountProduct;
-import com.example.mscuentas.event.catalog.PersonAddedEvent;
 import com.example.mscuentas.service.AccountService;
 import com.example.mscuentas.service.PersonBackgroundService;
+import com.example.mspersonas.event.catalog.PersonAddedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 @Component
 public final class PersonAddedEventHandler implements DomainEventHandler<PersonAddedEvent> {
@@ -35,6 +36,9 @@ public final class PersonAddedEventHandler implements DomainEventHandler<PersonA
                 var worldSysFutureResponse = personBackgroundService.getAntiterrorismStatus(dni);
                 var renaperFutureResponse = personBackgroundService.getBlacklistedStatus(dni);
                 var verazFutureResponse = personBackgroundService.getScore(dni);
+                logger.info("debug, {}", worldSysFutureResponse.get());
+                logger.info("debug, {}", renaperFutureResponse.get());
+                logger.info("debug, {}", verazFutureResponse.get());
                 availableProducts = ProductFilterTemplate.create()
                     .loadRule(worldSysFutureResponse, isATerrorist -> isATerrorist,
                             AccountProduct.values())
@@ -52,15 +56,17 @@ public final class PersonAddedEventHandler implements DomainEventHandler<PersonA
                 //For now, we allow the base product, and rely on the client requesting the pending activations:
                 availableProducts = List.of(AccountProduct.BASIC_ACCOUNT);
             }
+            logger.info("dni = {}. Proceeding to activate the following products: {}", event.getDni(), availableProducts);
             try {
                 accountService.addAccount(event, availableProducts);
+                logger.info("dni = {}. Performed product activations: {}", event.getDni(),availableProducts);
             } catch (Exception e) {
                 logger.error(
-                        "Error activating products for person[dni={}]. Only basic product will be activated: {}",
+                        "Error activating products for person[dni={}]. No products will be activated: {}",
                         dni, e.getMessage(), e);
                 //Same consideration here.
             }
-            logger.info("dni = {}. Obtained products to activate: {}", event.getDni(),availableProducts);
+
         }
     }
 

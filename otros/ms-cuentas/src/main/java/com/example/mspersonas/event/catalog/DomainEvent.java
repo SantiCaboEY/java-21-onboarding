@@ -1,4 +1,4 @@
-package com.example.mscuentas.event.catalog;
+package com.example.mspersonas.event.catalog;
 
 import lombok.Getter;
 import lombok.Setter;

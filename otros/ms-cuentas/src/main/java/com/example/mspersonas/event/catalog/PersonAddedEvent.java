@@ -1,6 +1,5 @@
 package com.example.mspersonas.event.catalog;
 
-import com.example.mscuentas.event.catalog.DomainEvent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

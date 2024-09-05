@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface CurrencyRepository extends CrudRepository<CurrencyModel, String> {
 
-    @Cacheable("currencyCache")
-    @CacheEvict(value = "currencyCache", allEntries = true)
+    //@Cacheable("currencyCache")
+    //@CacheEvict(value = "currencyCache", allEntries = true)
     Optional<CurrencyModel> findBySymbol(String symbol);
 }

@@ -2,9 +2,8 @@ package com.example.mscuentas.service;
 
 import com.example.mscuentas.dto.ApiException;
 import com.example.mscuentas.enums.AccountProduct;
-import com.example.mscuentas.event.catalog.AccountActivatedEvent;
-import com.example.mscuentas.event.catalog.AccountRejectedEvent;
-import com.example.mscuentas.event.catalog.PersonAddedEvent;
+import com.example.mspersonas.event.catalog.AccountActivatedEvent;
+import com.example.mspersonas.event.catalog.AccountRejectedEvent;
 import com.example.mscuentas.event.producer.DomainEventPublisher;
 import com.example.mscuentas.model.Account;
 import com.example.mscuentas.model.AccountStatusModel;
@@ -12,8 +11,7 @@ import com.example.mscuentas.model.CurrencyModel;
 import com.example.mscuentas.repository.AccountRepository;
 import com.example.mscuentas.repository.AccountStatusRepository;
 import com.example.mscuentas.repository.CurrencyRepository;
-import com.example.mscuentas.service.AccountService;
-import org.hibernate.query.sqm.EntityTypeException;
+import com.example.mspersonas.event.catalog.PersonAddedEvent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,8 +38,8 @@ class AccountServiceTest {
                 domainEventPublisher, currencyRepository, accountStatusRepository);
         Mockito.when(currencyRepository.findBySymbol("USD")).thenReturn(
                 Optional.of(new CurrencyModel("1", "MURICA", "USD")));
-        Mockito.when(currencyRepository.findBySymbol("ARG")).thenReturn(
-                Optional.of(new CurrencyModel("2", "ARGENTINA", "ARG")));
+        Mockito.when(currencyRepository.findBySymbol("ARS")).thenReturn(
+                Optional.of(new CurrencyModel("2", "ARGENTINA", "ARS")));
         Mockito.when(accountStatusRepository.findByDetail("ACTIVA")).thenReturn(
                 Optional.of(new AccountStatusModel("2", "ACTIVA")));
         Mockito.when(accountStatusRepository.findByDetail("Activa")).thenReturn(
@@ -148,7 +146,7 @@ class AccountServiceTest {
 
     private static PersonAddedEvent personAddEvent() {
         return PersonAddedEvent.builder()
-                .personId(1)
+                .id(1)
                 .dni("22333444")
                 .name("John")
                 .lastName("Doe")

@@ -1,7 +1,6 @@
 package com.example.mscuentas.event.consumer.impl;
 
-import com.example.mscuentas.event.catalog.DomainEvent;
-import com.example.mscuentas.event.catalog.PersonAddedEvent;
+import com.example.mspersonas.event.catalog.DomainEvent;
 import com.example.mscuentas.event.consumer.DomainEventConsumer;
 import com.example.mscuentas.event.consumer.handler.DomainEventHandler;
 import com.example.mscuentas.event.consumer.handler.PersonAddedEventHandler;
@@ -20,13 +19,13 @@ import java.util.Objects;
 public class DomainEventKafkaConsumer implements DomainEventConsumer {
     private final Logger logger = LoggerFactory.getLogger(DomainEventKafkaConsumer.class);
     private final AccountService service;
-    private final Map<Class<? extends  DomainEvent>, DomainEventHandler> handlerMap;
+    private final Map<String, DomainEventHandler> handlerMap;
 
     public DomainEventKafkaConsumer(final AccountService service,
                                     final PersonAddedEventHandler personAddedEventHandler){
         this.service = service;
         handlerMap = new HashMap<>();
-        handlerMap.put(PersonAddedEvent.class, personAddedEventHandler);
+        handlerMap.put("person.add", personAddedEventHandler);
     }
 
     /**
@@ -39,8 +38,8 @@ public class DomainEventKafkaConsumer implements DomainEventConsumer {
     @Async("virtualThreadExecutor")
     @KafkaListener(topics = {"personas", "tarjetas"})
     public void processMessage(final DomainEvent event)  {
-        logger.info("received event = {} - {} ", event, event.hashCode());
-        var handler = handlerMap.get(event.getClass());
+        logger.info("-> received event = {} - {} ", event, event.hashCode());
+        var handler = handlerMap.get(event.getEventName());
         if(Objects.isNull(handler)) {
             logger.error("No handler registered for {} event. Ignoring event", event.getEventName());
         } else {

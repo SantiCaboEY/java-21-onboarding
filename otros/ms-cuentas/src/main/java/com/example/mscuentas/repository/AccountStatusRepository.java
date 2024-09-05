@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface AccountStatusRepository extends CrudRepository<AccountStatusModel, String> {
 
-    @Cacheable("statusCache")
-    @CacheEvict(value = "statusCache", allEntries = true)
+    //@Cacheable("statusCache")
+    //@CacheEvict(value = "statusCache", allEntries = true)
     Optional<AccountStatusModel> findByDetail(String detail);
 }
