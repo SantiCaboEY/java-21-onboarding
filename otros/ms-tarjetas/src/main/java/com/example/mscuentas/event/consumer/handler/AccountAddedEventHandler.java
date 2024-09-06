@@ -27,7 +27,13 @@ public final class AccountAddedEventHandler implements DomainEventHandler<Accoun
             try{
             /**
              * LOGIC
+             * CREDIT_CARD_BASIC,
+             *     CREDIT_CARD_GOLD,
+             *     CREDIT_CARD_PLATINUM
+             *  Dar de alta, si estan en la lista.
+             *  cardService.createCards(Lista);
              */
+                cardService.getCard("1111222233334444");
             } catch(Exception e){
                 logger.error("Error DOING LOGIC");
                 //This was a valid event, that failed because of api call to providers
