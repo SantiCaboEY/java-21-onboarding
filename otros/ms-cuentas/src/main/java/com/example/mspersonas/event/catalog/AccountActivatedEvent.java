@@ -17,6 +17,7 @@ import java.util.List;
 public class AccountActivatedEvent extends DomainEvent {
 
     private String personId;
+	private String accountId;
     private List<AccountProduct> activatedProducts;
     private String personName;
     private String personLastName;

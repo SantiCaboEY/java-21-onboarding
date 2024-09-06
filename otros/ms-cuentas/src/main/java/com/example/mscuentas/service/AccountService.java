@@ -60,23 +60,30 @@ public class AccountService {
             if(availableProducts.contains(AccountProduct.USD_ACCOUNT)){
                 addUsdAccount(event);
             }
-            addBasicAccount(event);
-            domainEventPublisher.publish(new AccountActivatedEvent());
+            var basicAccountId = addBasicAccount(event);
+            var newEvent =  AccountActivatedEvent.builder().activatedProducts(availableProducts)
+                    .personDni(event.getDni())
+                    .accountId(basicAccountId)
+                    .personName(event.getName())
+                    .personLastName(event.getLastName())
+                    .build();
+            newEvent.setEventName("person.account.activated");
+            domainEventPublisher.publish(newEvent);
         }
-
     }
 
-    private void addBasicAccount(PersonAddedEvent event){
+    private String addBasicAccount(PersonAddedEvent event){
         var currency = currencyRepository.findBySymbol("ARS")
                 .orElseThrow(() -> new IllegalArgumentException("No currency found"));
         var status = accountStatusRepository.findByDetail("Activa")
                 .orElseThrow(() -> new IllegalArgumentException("No status found"));
-        this.accountRepository.save(new Account(
+        var account = this.accountRepository.save(new Account(
                 UUID.randomUUID().toString(),
                 Integer.decode(event.getDni()),
                 currency,
                 status,
                 BigDecimal.ZERO));
+        return account.getId();
     }
 
     private void addUsdAccount(PersonAddedEvent event){
