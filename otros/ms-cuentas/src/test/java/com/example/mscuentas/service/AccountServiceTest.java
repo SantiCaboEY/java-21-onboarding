@@ -44,6 +44,7 @@ class AccountServiceTest {
                 Optional.of(new AccountStatusModel("2", "ACTIVA")));
         Mockito.when(accountStatusRepository.findByDetail("Activa")).thenReturn(
                 Optional.of(new AccountStatusModel("2", "Activa")));
+        Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(mockAccount());
     }
     @Test
     void givenNonExistingAccountFail(){
@@ -62,7 +63,6 @@ class AccountServiceTest {
         Assertions.assertEquals(BigDecimal.valueOf(100L), foundAccount.balance());
         Assertions.assertEquals("1", foundAccount.id());
         Mockito.verify(domainEventPublisher, Mockito.never()).publish(Mockito.any());
-
     }
     @Test
     void addNoAccounts() {

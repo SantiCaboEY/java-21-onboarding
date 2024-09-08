@@ -34,9 +34,10 @@ public class CardService {
 
 
     public GetCardDto getCard(String id) {
-        var card = cardRepository.findById(id).orElseThrow(() -> new ApiException());
+        var card = cardRepository.findById(id).orElseThrow(ApiException::new);
         return new GetCardDto(card.getNumber());
     }
+
     public void addProducts(final List<AccountProduct> receivedProducts,  final Integer accountNumber) {
         receivedProducts.stream().filter(AVAILABLE_PRODUCTS::contains).forEach(p-> activate(p,accountNumber));
     }

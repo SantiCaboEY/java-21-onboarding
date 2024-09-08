@@ -31,13 +31,10 @@ public final class AccountAddedEventHandler implements DomainEventHandler<Accoun
             try{
                 cardService.addProducts(event.getActivatedProducts(), Integer.decode(event.getAccountId()));
             } catch(Exception e){
-                logger.error("Error DOING LOGIC");
+                logger.error("Error activating cards for account: {}", event.getAccountId());
                 //This was a valid event, that failed because of api call to providers
                 //Since it was a valid event, it shouldn't be lost. There needs to be a mechanism.
                 //For now, we allow the base product, and rely on the client requesting the pending activations:
-                /**
-                 * MORE LOGIC
-                 */
             }
             logger.info("Proceeding");
             try {
